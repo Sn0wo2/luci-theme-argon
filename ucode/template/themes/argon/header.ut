@@ -18,8 +18,9 @@
 
 {%
 	import { readfile, access } from 'fs';
+	import * as fs from 'fs';
 	import { cursor } from 'uci';
-	import { srand } from 'math';
+	import { srand, rand } from 'math';
 	import { getuid, getspnam } from 'luci.core';
 
 	const boardinfo = ubus.call("system", "board");
@@ -47,6 +48,43 @@
 		mode = cfg.get_first('argon', 'global', 'mode');
 		bar_color = (mode == 'dark') ? dark_primary : primary;
 	}
+
+	const imageTypes = " jpg jpeg png gif webp ";
+
+	function fetchBackgroundImages(path, themeDir) {
+		let backgroundTable = [];
+		if (!fs.access(path))
+			return backgroundTable;
+
+		for (f in (fs.lsdir(path))) {
+			let ext = lc(split(f, '.')?.[1]);
+			if (ext && index(imageTypes, " " + ext + " ") != -1) {
+				push(backgroundTable, themeDir + f);
+			}
+		}
+		return backgroundTable;
+	}
+
+	function selectDashboardBackground(themeDir) {
+		let bgUrl = media + '/img/bg1.jpg';
+
+		if (fs.access('/etc/config/argon')) {
+			let online_wallpaper = cfg.get_first('argon', 'global', 'online_wallpaper') ?? (cfg.get_first('argon', 'global', 'bing_background') == '1' ? 'bing' : null);
+			if (online_wallpaper && online_wallpaper != 'none') {
+				const picurl = ubus.call('luci.argon_wallpaper', 'get_url') ?? {};
+				if (picurl?.url)
+					return picurl.url;
+			}
+		}
+
+		let backgrounds = fetchBackgroundImages('/www' + themeDir, themeDir);
+		if (length(backgrounds) > 0)
+			bgUrl = backgrounds[(rand() % length(backgrounds))];
+
+		return bgUrl;
+	}
+
+	const dashboardBgUrl = selectDashboardBackground(media + '/background/');
 
 -%}
 <!DOCTYPE html>
@@ -110,6 +148,15 @@
 			--blur-opacity-dark:{{ blur_opacity_dark }};
 		}
 		{% endif -%}
+		{% if (dashboardBgUrl): %}
+		body.logged-in {
+			background-image: linear-gradient(rgba(23, 43, 77, 0.28), rgba(23, 43, 77, 0.28)), url('{{ dashboardBgUrl }}');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-attachment: fixed;
+		}
+		{% endif -%}
 	</style>
 	<!-- Stylesheets -->
 	{% if (node?.css): %}
@@ -126,7 +173,7 @@
 </head>
 
 <body
-	class="lang_{{ dispatcher.lang }} {{ node?.title ? ` - ${striptags(node.title)}` : '' }} {% if (ctx.authsession): %}logged-in{% endif %}"
+	class="lang_{{ dispatcher.lang }} {{ node?.title ? ` - ${striptags(node.title)}` : '' }} {% if (ctx.authsession): %}logged-in{% endif %}{% if (dashboardBgUrl): %} has-bg-wallpaper{% endif %}"
 	data-page="{{ entityencode(join('-', ctx.request_path), true) }}">
 
 	<div class="main">

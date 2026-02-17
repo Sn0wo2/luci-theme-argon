@@ -3240,6 +3240,61 @@ pre.command-output {
   padding: 1.5rem;
 }
 /* page fix */
+body.logged-in.has-bg-wallpaper .main-right,
+body.logged-in.has-bg-wallpaper #maincontent,
+body.logged-in.has-bg-wallpaper #maincontent > .container,
+body.logged-in.has-bg-wallpaper #view,
+body.logged-in.has-bg-wallpaper #view > .spinning {
+  background: transparent !important;
+}
+body.logged-in.has-bg-wallpaper .main-left {
+  background: rgba(255, 255, 255, 0.8) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(120%);
+}
+body.logged-in.has-bg-wallpaper h2,
+body.logged-in.has-bg-wallpaper h3,
+body.logged-in.has-bg-wallpaper h4,
+body.logged-in.has-bg-wallpaper .panel-title,
+body.logged-in.has-bg-wallpaper .cbi-section,
+body.logged-in.has-bg-wallpaper .cbi-section-error,
+body.logged-in.has-bg-wallpaper .cbi-map,
+body.logged-in.has-bg-wallpaper .cbi-section-node,
+body.logged-in.has-bg-wallpaper .cbi-section-node-tabbed,
+body.logged-in.has-bg-wallpaper .tabs,
+body.logged-in.has-bg-wallpaper .cbi-tabmenu,
+body.logged-in.has-bg-wallpaper .cbi-tabmenu > li,
+body.logged-in.has-bg-wallpaper .cbi-rowstyle-1,
+body.logged-in.has-bg-wallpaper .cbi-rowstyle-2,
+body.logged-in.has-bg-wallpaper .tr[data-title]::before,
+body.logged-in.has-bg-wallpaper .tr.cbi-section-table-titles.named::before,
+body.logged-in.has-bg-wallpaper .tr.table-titles > .th,
+body.logged-in.has-bg-wallpaper .tr.cbi-section-table-titles > .th,
+body.logged-in.has-bg-wallpaper table > thead > tr > th,
+body.logged-in.has-bg-wallpaper table > tbody > tr > th,
+body.logged-in.has-bg-wallpaper table > tfoot > tr > th,
+body.logged-in.has-bg-wallpaper table > tbody > tr:nth-of-type(2n),
+body.logged-in.has-bg-wallpaper div > table > tbody > tr:nth-of-type(2n),
+body.logged-in.has-bg-wallpaper div > .table > .tr:nth-of-type(2n),
+body.logged-in.has-bg-wallpaper div > .table > .tbody > .tr:nth-of-type(2n),
+body.logged-in.has-bg-wallpaper .cbi-tabcontainer > .cbi-value:nth-of-type(2n),
+body.logged-in.has-bg-wallpaper .alert-message,
+body.logged-in.has-bg-wallpaper .notice,
+body.logged-in.has-bg-wallpaper .commandbox,
+body.logged-in.has-bg-wallpaper .dashboard-bg,
+body.logged-in.has-bg-wallpaper .ifacebox,
+body.logged-in.has-bg-wallpaper .ifacebox-head,
+body.logged-in.has-bg-wallpaper .ifacebox-body {
+  background: rgba(255, 255, 255, 0.72) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(115%);
+  backdrop-filter: blur(10px) saturate(115%);
+}
+body.logged-in.has-bg-wallpaper header.bg-primary,
+body.logged-in.has-bg-wallpaper header::after {
+  background: rgba(94, 114, 228, 0.78) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  backdrop-filter: blur(12px) saturate(130%);
+}
 [data-page="admin-system-autoreboot"] #cbi-autoreboot {
   margin-top: 0;
 }
@@ -3625,6 +3680,12 @@ pre.command-output {
 [data-page="admin-status-nftables"] .nft-chain-hook {
   padding: 0.5rem 1.25rem;
 }
+[data-page="admin-status-nftables"] .alert-message {
+  opacity: 1;
+}
+[data-page="admin-status-nftables"] .alert-message.fade-out {
+  opacity: 0;
+}
 [data-page="admin-services-nlbw-display"] .cbi-section[data-tab="export"] {
   padding: 1.5rem !important;
 }
@@ -3651,6 +3712,12 @@ pre.command-output {
 }
 #cbi-dockerd .cbi-section.cbi-tblsection {
   padding: 0;
+}
+#cbi-smartdns #service_status {
+  padding: 16px;
+}
+#cbi-smartdns .cbi-section-node {
+  padding: 16px;
 }
 #cbi-docker .cbi-section .cbi-section-node {
   box-sizing: border-box;

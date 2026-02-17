@@ -4,6 +4,68 @@
 // Page-specific CSS fixes and customizations for LuCI admin interface
 // ==========================================================================
 
+// Global - wallpaper mode for theme-controlled surfaces only
+body.logged-in.has-bg-wallpaper {
+    .main-right,
+    #maincontent,
+    #maincontent > .container,
+    #view,
+    #view > .spinning {
+        background: transparent !important;
+    }
+
+    .main-left {
+        background: rgba(255, 255, 255, 0.8) !important;
+        -webkit-backdrop-filter: blur(12px) saturate(120%);
+        backdrop-filter: blur(12px) saturate(120%);
+    }
+
+    h2,
+    h3,
+    h4,
+    .panel-title,
+    .cbi-section,
+    .cbi-section-error,
+    .cbi-map,
+    .cbi-section-node,
+    .cbi-section-node-tabbed,
+    .tabs,
+    .cbi-tabmenu,
+    .cbi-tabmenu > li,
+    .cbi-rowstyle-1,
+    .cbi-rowstyle-2,
+    .tr[data-title]::before,
+    .tr.cbi-section-table-titles.named::before,
+    .tr.table-titles > .th,
+    .tr.cbi-section-table-titles > .th,
+    table > thead > tr > th,
+    table > tbody > tr > th,
+    table > tfoot > tr > th,
+    table > tbody > tr:nth-of-type(2n),
+    div > table > tbody > tr:nth-of-type(2n),
+    div > .table > .tr:nth-of-type(2n),
+    div > .table > .tbody > .tr:nth-of-type(2n),
+    .cbi-tabcontainer > .cbi-value:nth-of-type(2n),
+    .alert-message,
+    .notice,
+    .commandbox,
+    .dashboard-bg,
+    .ifacebox,
+    .ifacebox-head,
+    .ifacebox-body {
+        background: rgba(255, 255, 255, 0.72) !important;
+        -webkit-backdrop-filter: blur(10px) saturate(115%);
+        backdrop-filter: blur(10px) saturate(115%);
+    }
+
+    header.bg-primary,
+    header::after {
+        background: rgba(94, 114, 228, 0.78) !important;
+        -webkit-backdrop-filter: blur(12px) saturate(130%);
+        backdrop-filter: blur(12px) saturate(130%);
+    }
+}
+
 // 1. System Administration Pages
 // ==========================================================================
 
