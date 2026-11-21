@@ -1,6 +1,7 @@
 name: Release packages
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "*"
@@ -17,6 +18,7 @@ env:
 
 jobs:
   metadata:
+    if: github.ref_type == 'tag'
     name: Resolve release version
     runs-on: ubuntu-24.04
     outputs:
