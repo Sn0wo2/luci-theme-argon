@@ -1,0 +1,46 @@
+name: Fork dist
+
+on:
+  schedule:
+    - cron: '23 */12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: fork-dist
+
+jobs:
+  sync:
+    if: github.repository == 'Sn0wo2/luci-theme-argon' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Rebase the fork commit and dispatch packaging
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --no-tags origin master
+          git checkout -B master origin/master
+          previous=$(git rev-parse HEAD)
+          git fetch --no-tags https://github.com/jerrykuku/luci-theme-argon.git master
+          upstream=$(git rev-parse FETCH_HEAD)
+          test "$(git rev-list --count "$upstream..HEAD")" = 1
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rebase "$upstream"
+          test "$(git rev-list --count "$upstream..HEAD")" = 1
+          if [ "$previous" != "$(git rev-parse HEAD)" ]; then
+            git push --force-with-lease="refs/heads/master:$previous" origin HEAD:master
+          fi
+          base=$(sed -n 's/^PKG_VERSION:=//p' Makefile)
+          tag="v${base}-beta.$(git show -s --format=%ct HEAD)"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            exit 0
+          fi
+          git push origin "HEAD:refs/tags/$tag"
+          gh workflow run release.yml --ref "$tag"
